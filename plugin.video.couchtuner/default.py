@@ -3,20 +3,20 @@ import xbmc,xbmcgui, xbmcaddon, xbmcplugin
 import urllib,urllib2,re,string,os,time,threading
 
 try:
-    from resources.libs import main,settings    
+    from resources.libs import main,settings
 except Exception, e:
     elogo = xbmc.translatePath('special://home/addons/plugin.video.couchtuner/resources/art/bigx.png')
     dialog = xbmcgui.Dialog()
     ok=dialog.ok('[B][COLOR=FF67cc33]CouchTuner Import Error[/COLOR][/B]','Failed To Import Needed Modules',str(e),'Report missing Module at [COLOR=FF67cc33]Twitter @ Kasik04a[/COLOR] to Fix')
     xbmc.log('CouchTuner ERROR - Importing Modules: '+str(e), xbmc.LOGERROR)
-    
+
 #CouchTuner by Kasik04a
 
 
 addon_id = 'plugin.video.couchtuner'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 art = main.art
-base_url = 'http://couchtuner.at'
+base_url = 'http://couchtuner.ag'
 
 ################################################################################ Directories ##########################################################################################################
 UpdatePath=os.path.join(main.datapath,'Update')
@@ -33,10 +33,10 @@ try: os.makedirs(TempPath)
 except: pass
 
 def MAIN():
-    
-    main.addDir('New Release','http://couchtuner.at/latest-episodes',1,art+'/New.png')
-    main.addDir('TV A-Z Index ','http://couchtuner.at/tv',7,art+'/showlist.png')
-    main.addDir('Search','http://couchtuner.at/search?q=',110,art+'/search.png')
+
+    main.addDir('New Release','http://couchtuner.ag/latest-episodes',1,art+'/New.png')
+    main.addDir('TV A-Z Index ','http://couchtuner.ag/tv',7,art+'/showlist.png')
+    main.addDir('Search','http://couchtuner.ag/search?q=',110,art+'/search.png')
 
 ########################################################################################################################################################################
 
@@ -83,10 +83,10 @@ def UploadLog():
 ################################################################################ XBMCHUB POPUP ##########################################################################################################
 class HUB( xbmcgui.WindowXMLDialog ):
     def __init__( self, *args, **kwargs ):
-        self.shut = kwargs['close_time'] 
+        self.shut = kwargs['close_time']
         xbmc.executebuiltin( "Skin.Reset(AnimeWindowXMLDialogClose)" )
         xbmc.executebuiltin( "Skin.SetBool(AnimeWindowXMLDialogClose)" )
-                                       
+
     def onInit( self ):
         xbmc.Player().play('%s/resources/skins/DefaultSkin/media/theme.ogg'%selfAddon.getAddonInfo('path'))# Music.
         while self.shut > 0:
@@ -94,10 +94,10 @@ class HUB( xbmcgui.WindowXMLDialog ):
             self.shut -= 1
         xbmc.Player().stop()
         self._close_dialog()
-                
+
     def onFocus( self, controlID ): pass
-    
-    def onClick( self, controlID ): 
+
+    def onClick( self, controlID ):
         if controlID == 12:
             xbmc.Player().stop()
             self._close_dialog()
@@ -114,7 +114,7 @@ class HUB( xbmcgui.WindowXMLDialog ):
         xbmc.executebuiltin( "Skin.Reset(AnimeWindowXMLDialogClose)" )
         time.sleep( .4 )
         self.close()
-        
+
 def pop():
     if xbmc.getCondVisibility('system.platform.ios'):
         if not xbmc.getCondVisibility('system.platform.atv'):
@@ -217,7 +217,7 @@ def addDir(name,url,mode,iconimage):
         liz.setInfo( type="Video", infoLabels={ "Title": name } )
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True)
         return ok
-        
+
 ################################################################################ Modes ##########################################################################################################
 
 
@@ -237,7 +237,7 @@ def get_params():
             if (len(splitparams))==2:
                 param[splitparams[0]]=splitparams[1]
     return param
-              
+
 params=get_params()
 
 url=None
@@ -305,7 +305,7 @@ elif mode==3:
     from resources.libs import couchtuner
     print " " + url
     couchtuner.SEARCH(url)
-    
+
 elif mode==4:
     from resources.libs import couchtuner
     print " " + url
@@ -319,7 +319,7 @@ elif mode==5:
 elif mode==7:
     from resources.libs import couchtuner
     print " " + url
-    couchtuner.AtoZ()
+    couchtuner.agoZ()
 
 elif mode==8:
     from resources.libs import couchtuner
@@ -334,14 +334,14 @@ elif mode==9:
 elif mode==10:
     from resources.libs import couchtuner
     print " " + url
-    couchtuner.EPISODES(name,url,index=False)    
+    couchtuner.EPISODES(name,url,index=False)
 
 
 elif mode==11:
     from resources.libs import couchtuner
     print " " + url
     couchtuner.Seasons(url)
-    
+
 
 
 elif mode==20:
@@ -354,43 +354,43 @@ elif mode==45:
     print " " + url
     couchtuner.TVLINK(name,url)
 
-    
+
 
 elif mode==100:
     from resources.libs import couchtuner
     print " " + url
-    couchtuner.VIDEOLINKS(name,url) 
+    couchtuner.VIDEOLINKS(name,url)
 
 elif mode==110:
         from resources.libs import couchtuner
         print ""+url
         couchtuner.Searchhistory()
-        
+
 elif mode==120:
         from resources.libs import couchtuner
         print ""+url
         couchtuner.SEARCH(url)
-        
+
 elif mode==128:
         main.Clearhistory(url)
-        
+
 elif mode==130:
         from resources.libs import couchtuner
         print ""+url
         couchtuner.Searchhistorytv()
 
-        
-        
-    
+
+
+
 elif mode==190:
     print ""+url
     main.Download_Source(name,url)
 
 
-  
+
 
 elif mode == 776:
-    main.jDownloader(url) 
+    main.jDownloader(url)
 
 
 xbmcplugin.endOfDirectory(int(sys.argv[1]))

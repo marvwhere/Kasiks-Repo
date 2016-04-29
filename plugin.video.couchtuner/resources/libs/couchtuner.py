@@ -11,13 +11,13 @@ addon_id = 'plugin.video.couchtuner'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 addon = Addon('plugin.video.couchtuner', sys.argv)
 art = main.art
-base_url = 'http://couchtuner.at/'    
+base_url = 'http://couchtuner.ag/'
 
 
 def AtoZ():
-    main.addDir('0-9','http://couchtuner.at/tv/startwith/',8,art+'/09.png')
+    main.addDir('0-9','http://couchtuner.ag/tv/startwith/',8,art+'/09.png')
     for i in string.ascii_uppercase:
-            main.addDir(i,'http://couchtuner.at/tv/startwith/'+i.upper(),8,art+'/'+i.lower()+'.png')
+            main.addDir(i,'http://couchtuner.ag/tv/startwith/'+i.upper(),8,art+'/'+i.lower()+'.png')
 
 def AZLIST(name,url):
     link=main.OPEN_URL(url)
@@ -37,7 +37,7 @@ def SEASONS(name,url,index=False):
     if not re.search('<strong>(\d+)</strong>', link): seasons = reversed(seasons)
     for season,url in seasons:
         main.addDir(name+' - '+season.strip(),url,10,'','',index=index)
-                
+
 
 def EPISODES(name,url,index=False):
     link=main.OPEN_URL(url)
@@ -56,15 +56,15 @@ def EPISODES(name,url,index=False):
      remaining_display = 'Episodes loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
      dialogWait.update(percent,'[B]Will load instantly from now on[/B]',remaining_display)
      if (dialogWait.iscanceled()):
-      return False   
+      return False
       dialogWait.close()
       del dialogWait
 
-      paginate=re.compile('<a href="(http://couchtuner.at/page/[^"]*?)">></a></li>').findall(link)
-      for xurl in paginate:  
+      paginate=re.compile('<a href="(http://couchtuner.ag/page/[^"]*?)">></a></li>').findall(link)
+      for xurl in paginate:
        main.addDir('[COLOR blue]Next Page >'+'[/COLOR]',xurl,1,art+'/next2.png','')
 
-    
+
 def NewRelease(url):
         link=main.OPEN_URL(url)
         link=main.unescapes(link)
@@ -83,15 +83,15 @@ def NewRelease(url):
             remaining_display = 'Episodes loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
             dialogWait.update(percent,'[B]Will load instantly from now on[/B]',remaining_display)
             if (dialogWait.iscanceled()):
-                return False   
+                return False
          dialogWait.close()
          del dialogWait
 
-        paginate=re.compile('<a href="(http://couchtuner.at/page/[^"]*?)">></a></li>').findall(link)
-        for xurl in paginate:  
+        paginate=re.compile('<a href="(http://couchtuner.ag/page/[^"]*?)">></a></li>').findall(link)
+        for xurl in paginate:
          main.addDir('[COLOR blue]Next Page >'+'[/COLOR]',xurl,1,art+'/next2.png','')
 
-        
+
 def LINK(name,url):
     link=main.OPEN_URL(url)
     link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','').replace('IFRAME SRC','iframe src')
@@ -125,7 +125,7 @@ def PLAY(name,url):
     fanart =infoLabels['backdrop_url']
     imdb_id=infoLabels['imdb_id']
     infolabels = { 'supports_meta' : 'true', 'video_type':video_type, 'name':str(infoLabels['title']), 'imdb_id':str(infoLabels['imdb_id']), 'season':str(season), 'episode':str(episode), 'year':str(infoLabels['year']) }
-    
+
     try:
         xbmc.executebuiltin("XBMC.Notification(Please Wait!,Resolving Link,3000)")
         stream_url = urlresolver.resolve(url)
@@ -156,12 +156,12 @@ def Searchhistory():
             seahis=seahis.replace('%20',' ')
             main.addDir(seahis,url,120,thumb)
 
-            
+
 
 def SEARCH(url = ''):
         encode = main.updateSearchFile(url,'TV')
-        if not encode: return False   
-        surl='http://couchtuner.at/search?q=' + encode 
+        if not encode: return False
+        surl='http://couchtuner.ag/search?q=' + encode
         link=main.OPENURL(surl)
         link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
         match=re.compile('td class="col-md-1"><img src="([^"]*?)" title=".+?</td>\s*<td class="col-md-11">.+?<h4 class="media-heading" ><a href="([^"]*?)">([^"]*?)</a></h4>').findall(link)
@@ -178,13 +178,13 @@ def SEARCH(url = ''):
             remaining_display = 'Episodes loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
             dialogWait.update(percent,'[B]Will load instantly from now on[/B]',remaining_display)
             if (dialogWait.iscanceled()):
-                return False   
+                return False
         dialogWait.close()
         del dialogWait
 
-        nextpage=re.compile('<a href="(http://couchtuner.at/page/[^"]*?)">></a></li>').findall(link)
+        nextpage=re.compile('<a href="(http://couchtuner.ag/page/[^"]*?)">></a></li>').findall(link)
         if nextpage:
          for xurl in nextpage:
-          main.addDir('Next Page',xurl,120,'')            
+          main.addDir('Next Page',xurl,120,'')
 
 
